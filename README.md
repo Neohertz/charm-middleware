@@ -192,6 +192,29 @@ Because `effect` implicitly tracks all atoms read within the callback, it might 
 
 ---
 
+
+### `middleware(atom, middleware)`
+
+Apply middleware to an atom that is used to transform the atom's value before any listeners are updated.
+
+```luau
+local healthAtom = atom(100)
+
+Charm.middleware(healthAtom, function(next, prev)
+	math.clamp(next, 0, 100)
+end)
+
+healthAtom(500)
+print(healthAtom()) -- 100
+```
+
+#### Parameters
+
+-   `atom`: The atom to apply middleware to.
+-   `middleware`: The middleware function.
+
+---
+
 ### `computed(callback, options?)`
 
 Call `computed` when you want to derive a new atom from one or more atoms. The callback will be memoized, meaning that subsequent calls to the atom return a cached value that is only re-calculated when the dependencies change.

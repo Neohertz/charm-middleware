@@ -32,6 +32,11 @@ export type AtomOptions<T> = {
 }
 
 --[=[
+	Middleware method used for updating atoms prior to the state updates.
+]=]
+export type Middleware<T> = (prev: T, next: T) -> T
+
+--[=[
 	A payload that can be sent from the server to the client to synchronize
 	state between the two.
 ]=]

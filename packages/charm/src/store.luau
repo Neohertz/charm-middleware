@@ -15,6 +15,8 @@ local capturing = {
 	index = 0,
 }
 
+local middleware: WeakMap<Atom<any>, types.Middleware<any>> = setmetatable({}, { __mode = "k" })
+
 --[=[
 	Calls the given function and returns the result. If the function yields or
 	throws an error, the thread is closed and an error is thrown. Regardless of
@@ -190,6 +192,21 @@ local function connect(atoms: Set<Atom<any>>, listener: () -> (), ref: unknown?)
 end
 
 --[=[
+	Register middleware internally for the given atom.
+
+	@param atom The atom to listen to.
+	@param fn The mutator method.
+]=]
+local function setMiddleware<T>(atom: types.Atom<T>, fn: types.Middleware<T>)
+	if middleware[atom] ~= nil then
+		warn("[Charm] Attempted to overwrite existing middleware.")
+		return
+	end
+
+	middleware[atom] = fn
+end
+
+--[=[
 	Unsubscribes the listener from every atom it was connected to.
 	
 	@param atoms The atoms to stop listening to.
@@ -204,6 +221,8 @@ end
 return {
 	listeners = listeners,
 	capturing = capturing,
+	middleware = middleware,
+	setMiddleware = setMiddleware,
 	isAtom = isAtom,
 	notify = notify,
 	capture = capture,

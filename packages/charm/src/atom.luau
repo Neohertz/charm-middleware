@@ -27,6 +27,11 @@ local function atom<T>(state: T, options: AtomOptions<T>?): Atom<T>
 		local nextState = store.peek(..., state)
 
 		if state ~= nextState and not (equals and equals(state, nextState)) then
+			local mutator = store.middleware[atom]
+			if mutator ~= nil then
+				nextState = mutator(nextState, state)
+			end
+
 			state = nextState
 			store.notify(atom)
 		end

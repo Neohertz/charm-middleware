@@ -2,6 +2,7 @@ local atom = require(script.atom)
 local computed = require(script.computed)
 local effect = require(script.effect)
 local mapped = require(script.mapped)
+local middleware = require(script.middleware)
 local observe = require(script.observe)
 local store = require(script.store)
 local subscribe = require(script.subscribe)
@@ -15,6 +16,7 @@ export type SyncPayload = types.SyncPayload
 return {
 	atom = atom,
 	computed = computed,
+	middleware = middleware,
 	effect = effect,
 	mapped = mapped,
 	observe = observe,
