@@ -1,5 +1,5 @@
 [package]
-name = "littensy/charm"
+name = "neohertz/charm-with-middleware"
 version = "0.10.0"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
